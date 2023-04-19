@@ -1,3 +1,5 @@
+:bangbang: **This software is in early alpha stage and not recomended to anyone.** :bangbang:
+
 WebSocket multi-language code generation tool
 
 # Supported languages
