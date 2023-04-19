@@ -19,6 +19,7 @@ var (
 	flagLang     string
 	flagGenerate string
 	flagSpec     string
+	flagConfig   string
 
 	flagVer bool
 )
@@ -26,7 +27,8 @@ var (
 func main() {
 	flag.StringVar(&flagLang, "l", "undefined", "target language")
 	flag.StringVar(&flagGenerate, "g", "all", "which source files generate: client, server, all")
-	flag.StringVar(&flagSpec, "s", "./wsgen.yml", "path to spec file")
+	flag.StringVar(&flagSpec, "s", "wsgen.spec.yml", "path to spec file")
+	flag.StringVar(&flagSpec, "c", "wsgen.config.yml", "path to config file")
 	flag.BoolVar(&flagVer, "v", false, "show version")
 	flag.Parse()
 	if flagVer {
@@ -36,7 +38,7 @@ func main() {
 		println(info.Main.Sum)
 		return
 	}
-	cfg, err := config.GetConfig(flagSpec)
+	cfg, err := config.GetConfig(flagSpec, flagConfig)
 	if err != nil {
 		panic(err)
 	}

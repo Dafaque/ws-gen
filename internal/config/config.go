@@ -34,28 +34,27 @@ type (
 	}
 )
 
-func GetConfig(p string) (*Config, error) {
+func GetConfig(spec, config string) (*Config, error) {
 
-	cfg, err := os.ReadFile(p)
+	specFile, err := os.ReadFile(spec)
 	if err != nil {
 		return nil, err
 	}
 	var conf Config
-	err = yaml.Unmarshal(cfg, &conf)
+	err = yaml.Unmarshal(specFile, &conf)
 	if err != nil {
 		return nil, err
 	}
 	if !checkEncodingAvailable(conf.Encoding) {
-		return nil, fmt.Errorf("%s packing format is not supported yet", conf.Encoding)
+		return nil, fmt.Errorf("\"%s\" encoding format is not supported yet", conf.Encoding)
 	}
 
-	dir := path.Dir(p)
-	customCfg, err := os.ReadFile(path.Join(dir, "config.wsgen.yml"))
+	configFile, err := os.ReadFile(config)
 	if err != nil {
-		return nil, fmt.Errorf("Warning! config.wsgen.yml not found at %s.", dir)
+		return nil, fmt.Errorf("err load config file %v.", err)
 	}
 
-	if err = yaml.Unmarshal(customCfg, &conf.Custom); err != nil {
+	if err = yaml.Unmarshal(configFile, &conf.Custom); err != nil {
 		return nil, err
 	}
 	conf.FullPath = path.Join(conf.Custom["root"], conf.Custom["package"])
