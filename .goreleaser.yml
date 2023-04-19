@@ -6,7 +6,7 @@ brews:
       owner: Dafaque
       name: homebrew-ws-gen
       branch: main
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+      token: "{{ .Env.GITHUB_TOKEN }}"
       pull_request:
         enabled: true
         base: main
@@ -21,7 +21,7 @@ brews:
     caveats: "ws-gen -h"
     homepage: "https://github.com/Dafaque/ws-gen"
     description: "WebSocket client and server generation tool"
-    license: ""
+    license: "TBA"
     skip_upload: true
     dependencies:
       - name: go
