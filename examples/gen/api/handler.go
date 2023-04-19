@@ -4,7 +4,7 @@ import (
     "log"
     "errors"
     "context"
-    "github.com/Dafaque/wsgen/examples/gen/model"
+    "github.com/Dafaque/ws-gen/examples/gen/model"
 
 )
 type MessageHandler interface {

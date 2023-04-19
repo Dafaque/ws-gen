@@ -4,8 +4,8 @@ import (
 	"io/fs"
 	"path"
 
-	"github.com/Dafaque/wsgen/assets"
-	"github.com/Dafaque/wsgen/internal/config"
+	"github.com/Dafaque/ws-gen/assets"
+	"github.com/Dafaque/ws-gen/internal/config"
 )
 
 const (

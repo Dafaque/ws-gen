@@ -3,7 +3,7 @@ package golang
 import (
 	"fmt"
 
-	"github.com/Dafaque/wsgen/internal/baker/config"
+	"github.com/Dafaque/ws-gen/internal/baker/config"
 )
 
 type Config struct{}

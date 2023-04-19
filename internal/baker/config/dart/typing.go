@@ -1,6 +1,6 @@
 package dart
 
-import "github.com/Dafaque/wsgen/internal/baker/config"
+import "github.com/Dafaque/ws-gen/internal/baker/config"
 
 func normalizeType(t string) string {
 	switch t {

@@ -3,8 +3,8 @@ package dart
 import (
 	"fmt"
 
-	"github.com/Dafaque/wsgen/internal/baker/config"
-	"github.com/Dafaque/wsgen/internal/baker/config/common"
+	"github.com/Dafaque/ws-gen/internal/baker/config"
+	"github.com/Dafaque/ws-gen/internal/baker/config/common"
 )
 
 type Config struct{}
