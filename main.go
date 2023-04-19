@@ -9,9 +9,9 @@ import (
 
 	"github.com/Dafaque/ws-gen/assets"
 	"github.com/Dafaque/ws-gen/internal/baker"
-	bconfig "github.com/Dafaque/ws-gen/internal/baker/config"
-	_ "github.com/Dafaque/ws-gen/internal/baker/config/dart"
-	_ "github.com/Dafaque/ws-gen/internal/baker/config/golang"
+	"github.com/Dafaque/ws-gen/internal/baker/settings"
+	_ "github.com/Dafaque/ws-gen/internal/baker/settings/dart"
+	_ "github.com/Dafaque/ws-gen/internal/baker/settings/golang"
 	"github.com/Dafaque/ws-gen/internal/config"
 )
 
@@ -28,7 +28,7 @@ func main() {
 	flag.StringVar(&flagLang, "l", "undefined", "target language")
 	flag.StringVar(&flagGenerate, "g", "all", "which source files generate: client, server, all")
 	flag.StringVar(&flagSpec, "s", "wsgen.spec.yml", "path to spec file")
-	flag.StringVar(&flagSpec, "c", "wsgen.config.yml", "path to config file")
+	flag.StringVar(&flagConfig, "c", "wsgen.config.yml", "path to config file")
 	flag.BoolVar(&flagVer, "v", false, "show version")
 	flag.Parse()
 	if flagVer {
@@ -49,7 +49,7 @@ func main() {
 		panic(err)
 	}
 
-	langConfig, exists := bconfig.GetConfig(flagLang)
+	langConfig, exists := settings.GetConfig(flagLang)
 	if !exists {
 		panic(fmt.Errorf("no config for language %s", flagLang))
 	}

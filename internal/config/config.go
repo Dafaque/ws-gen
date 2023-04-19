@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	bconfig "github.com/Dafaque/ws-gen/internal/baker/config"
+	"github.com/Dafaque/ws-gen/internal/baker/settings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -30,7 +30,7 @@ type (
 	}
 	internal struct {
 		GenerateMode   string
-		LanguageConfig bconfig.LanguageConfig
+		LanguageConfig settings.LanguageSettings
 	}
 )
 
@@ -40,6 +40,7 @@ func GetConfig(spec, config string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+	println(string(specFile), spec)
 	var conf Config
 	err = yaml.Unmarshal(specFile, &conf)
 	if err != nil {

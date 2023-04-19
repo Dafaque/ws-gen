@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/Dafaque/ws-gen/internal/baker/config/common"
+	"github.com/Dafaque/ws-gen/internal/baker/settings/common"
 	"github.com/Dafaque/ws-gen/internal/config"
 )
 
@@ -19,9 +19,12 @@ func bake(lang, fp, file string, conf *config.Config) error {
 
 	funcs["fconv"] = conf.Internal.LanguageConfig.GetPublicFieldNameConverter()
 	funcs["sconv"] = conf.Internal.LanguageConfig.GetPublicStructNameConverter()
-	funcs["tconv"] = conf.Internal.LanguageConfig.GetTypeConverter()
 	funcs["snake"] = common.ToSnakeCase
 	funcs["get_param"] = common.MakeGetParamFunc(conf.Custom)
+	funcs["tconv"] = common.MakeParseTypeFunc(
+		conf.Internal.LanguageConfig.GetTypeConverter(),
+		conf.Internal.LanguageConfig.GetTypeWrapper(),
+	)
 	tmpl.Funcs(funcs)
 	tmpl, errParse := tmpl.Parse(file)
 	if errParse != nil {
