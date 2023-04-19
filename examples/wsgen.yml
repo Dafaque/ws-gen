@@ -1,0 +1,16 @@
+encoding: json
+models:
+  - name: textMessage
+    fields:
+      - name: id
+        type: int64
+      - name: content
+        type: string
+  - name: chatEvent
+    fields:
+      - name: id
+        type: int
+      - name: event
+        type: string
+      - name: testSnakeCaseConvertor
+        type: float
