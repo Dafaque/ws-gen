@@ -1,0 +1,29 @@
+# .goreleaser.yaml
+brews:
+  - name: WsGen
+    goarm: 6
+    goamd64: v1
+    tap:
+      owner: Dafaque
+      name: homebrew-ws-gen
+      branch: main
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+      pull_request:
+        enabled: true
+        base: main
+    url_template: "https://github.com/Dafaque/ws-gen/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    download_strategy: CurlDownloadStrategy
+    custom_require: custom_download_strategy
+    commit_author:
+      name: Dafaque
+      email: ihmiwtd@outlook.com
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    folder: Formula
+    caveats: "ws-gen -h"
+    homepage: "https://github.com/Dafaque/ws-gen"
+    description: "WebSocket client and server generation tool"
+    license: ""
+    skip_upload: true
+    dependencies:
+      - name: go
+        version: "1.20"
