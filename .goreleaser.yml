@@ -11,8 +11,6 @@ brews:
         enabled: true
         base: main
     url_template: "https://github.com/Dafaque/ws-gen/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    download_strategy: CurlDownloadStrategy
-    custom_require: custom_download_strategy
     commit_author:
       name: Dafaque
       email: ihmiwtd@outlook.com
