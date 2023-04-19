@@ -17,17 +17,20 @@ WebSocket multi-language code generation tool
 
 # Usage
 ```
+-c string
+    path to config file (default "wsgen.config.yml")
 -g string
     which source files generate: client, server, all (default "all")
 -l string
     target language (default "undefined")
 -s string
-    path to spec file (default "./wsgen.yml")
+    path to spec file (default "wsgen.spec.yml")
 -v    show version
 ```
-All language-specific params must be located in `config.wsgen.yml` file, in same directory with `wsgen.yml` file.
+### Config
+All project-specific params must be located in `wsgen.config.yml` file.
 
-Required parameters are:
+Required parameters:
 ```
 module: wsgen/examples # relative path for codegen
 package: gen # codegen directory
