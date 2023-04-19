@@ -7,8 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
-	"wsgen/internal/baker/config/common"
-	"wsgen/internal/config"
+
+	"github.com/Dafaque/wsgen/internal/baker/config/common"
+	"github.com/Dafaque/wsgen/internal/config"
 )
 
 func bake(lang, fp, file string, conf *config.Config) error {

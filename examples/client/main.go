@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"wsgen/examples/gen/api"
-	"wsgen/examples/gen/client"
-	"wsgen/examples/gen/iface"
-	"wsgen/examples/gen/model"
+
+	"github.com/Dafaque/wsgen/examples/gen/api"
+	"github.com/Dafaque/wsgen/examples/gen/client"
+	"github.com/Dafaque/wsgen/examples/gen/iface"
+	"github.com/Dafaque/wsgen/examples/gen/model"
 )
 
 type handler struct {

@@ -1,4 +1,4 @@
-module wsgen
+module github.com/Dafaque/wsgen
 
 go 1.20
 

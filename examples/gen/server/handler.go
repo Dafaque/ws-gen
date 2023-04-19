@@ -4,9 +4,9 @@ package server
 import (
     "context"
     "net/http"
-    "wsgen/examples/gen/iface"
-    "wsgen/examples/gen/mapper"
-    "wsgen/examples/gen/api"
+    "github.com/Dafaque/wsgen/examples/gen/iface"
+    "github.com/Dafaque/wsgen/examples/gen/mapper"
+    "github.com/Dafaque/wsgen/examples/gen/api"
     
     "github.com/gorilla/websocket"
 )

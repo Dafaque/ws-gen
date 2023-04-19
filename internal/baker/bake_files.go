@@ -3,8 +3,9 @@ package baker
 import (
 	"io/fs"
 	"path"
-	"wsgen/assets"
-	"wsgen/internal/config"
+
+	"github.com/Dafaque/wsgen/assets"
+	"github.com/Dafaque/wsgen/internal/config"
 )
 
 const (

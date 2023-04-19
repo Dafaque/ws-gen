@@ -1,6 +1,6 @@
 package golang
 
-import "wsgen/internal/baker/config"
+import "github.com/Dafaque/wsgen/internal/baker/config"
 
 func init() {
 	config.SetConfig("go", Config{})

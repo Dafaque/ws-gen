@@ -4,9 +4,9 @@ package mapper
 
 import (
     "context"
-    "wsgen/examples/gen/model"
-    "wsgen/examples/gen/iface"
-    "wsgen/examples/gen/api"
+    "github.com/Dafaque/wsgen/examples/gen/model"
+    "github.com/Dafaque/wsgen/examples/gen/iface"
+    "github.com/Dafaque/wsgen/examples/gen/api"
 
     "github.com/gorilla/websocket" 
 )

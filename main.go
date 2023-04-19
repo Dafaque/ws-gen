@@ -6,12 +6,13 @@ import (
 	"os"
 	"path"
 	"runtime/debug"
-	"wsgen/assets"
-	"wsgen/internal/baker"
-	bconfig "wsgen/internal/baker/config"
-	_ "wsgen/internal/baker/config/dart"
-	_ "wsgen/internal/baker/config/golang"
-	"wsgen/internal/config"
+
+	"github.com/Dafaque/wsgen/assets"
+	"github.com/Dafaque/wsgen/internal/baker"
+	bconfig "github.com/Dafaque/wsgen/internal/baker/config"
+	_ "github.com/Dafaque/wsgen/internal/baker/config/dart"
+	_ "github.com/Dafaque/wsgen/internal/baker/config/golang"
+	"github.com/Dafaque/wsgen/internal/config"
 )
 
 var (
