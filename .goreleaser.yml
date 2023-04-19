@@ -1,5 +1,5 @@
 brews:
-  - name: WsGen
+  - name: ws-gen
     goarm: 6
     goamd64: v1
     tap:
@@ -22,7 +22,7 @@ brews:
     homepage: "https://github.com/Dafaque/ws-gen"
     description: "WebSocket client and server generation tool"
     license: "TBA"
-    skip_upload: true
+    skip_upload: false
     dependencies:
       - name: go
         version: "1.20"
