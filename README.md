@@ -35,3 +35,13 @@ Optional parameters:
 ```
 root: ../ # path that will be prepended to "module" param
 ```
+
+# Contribute
+###
+1. Create an issue
+1. Clone
+1. Create branch
+1. Hack-hack-hack
+1. Open pull requests
+1. Wait for approval
+1. ???
