@@ -36,8 +36,8 @@ func Read(h Handler) {
         return
     }
     switch msgMeta.MsgIdx {
-    {{- range $model := .Models}}
-    {{- $name := sconv $model.Name}}
+    {{- range $msg := .Messages}}
+    {{- $name := sconv $msg.Name}}
     case model.MsgIdx{{$name}}:
         var message model.{{$name}}
         if err := h.GetCoder().Unmarshal(data, &message); err != nil {

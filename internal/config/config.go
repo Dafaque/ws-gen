@@ -14,16 +14,21 @@ var availableEncodingFormats []string = []string{"json"}
 
 type (
 	Config struct {
-		Models   []model           `yaml:"models"`
 		Encoding string            `yaml:"encoding"`
 		Init     initParams        `yaml:"init"`
+		Enums    []enum            `yaml:"enums"`
+		Messages []message         `yaml:"messages"`
 		FullPath string            `yaml:"-"`
 		Custom   map[string]string `yaml:"-"`
 		Internal internal          `yaml:"-"`
 	}
-	model struct {
+	message struct {
 		Name   string  `yaml:"name"`
 		Fields []field `yaml:"fields"`
+	}
+	enum struct {
+		Name   string   `yaml:"name"`
+		Values []string `yaml:"values"`
 	}
 	field struct {
 		Name string `yaml:"name"`
@@ -48,7 +53,6 @@ func GetConfig(spec, config string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	println(string(specFile), spec)
 	var conf Config
 	err = yaml.Unmarshal(specFile, &conf)
 	if err != nil {

@@ -1,14 +1,19 @@
 encoding: json
-types:
-  id: &id
-    name: id
-    type: int64
 init:
   params: 
     - name: chat_id
     - name: invisible
       optional: true
-models:
+enums:
+  - name: event
+    values:
+      - entered
+      - leaved
+aliases:
+  id: &id
+    name: id
+    type: int64
+messages:
   - name: textMessage
     fields:
       - *id
@@ -18,6 +23,6 @@ models:
     fields:
       - *id
       - name: event
-        type: string
+        type: $event
       - name: testSnakeCaseConvertor
         type: float

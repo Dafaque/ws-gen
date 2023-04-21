@@ -2,32 +2,32 @@
 import 'package:{{get_param "module"}}/{{get_param "package"}}/serialization/coder.dart';
 enum MessageIndex {
     undefined,
-{{- range $model := .Models}}
-    {{$model.Name}},
+{{- range $msg := .Messages}}
+    {{$msg.Name}},
 {{- end}}
 }
-{{- range $model := .Models}}
-{{- $name := sconv $model.Name}}
+{{- range $msg := .Messages}}
+{{- $name := sconv $msg.Name}}
 class {{$name}} implements Mapable {
-    {{- range $field := $model.Fields}}
+    {{- range $field := $msg.Fields}}
     final {{tconv $field.Type}} {{fconv $field.Name}};
     {{- end}}
     {{$name}}(
-        {{- range $field := $model.Fields}}
+        {{- range $field := $msg.Fields}}
         this.{{fconv $field.Name}},
         {{- end}}
     );
     @override
     Map<String, dynamic> toMap() => <String, dynamic>{
-        "\$msg_idx": MessageIndex.values.indexOf(MessageIndex.{{$model.Name}}),
-        {{- range $field := $model.Fields}}
+        "\$msg_idx": MessageIndex.values.indexOf(MessageIndex.{{$msg.Name}}),
+        {{- range $field := $msg.Fields}}
         "{{snake $field.Name}}": {{fconv $field.Name}},
         {{- end}}
     };
 }
 
-{{$name}} {{$model.Name}}FromMap(Map<String, dynamic> data) => {{$name}}(
-    {{- range $field := $model.Fields}}
+{{$name}} {{$msg.Name}}FromMap(Map<String, dynamic> data) => {{$name}}(
+    {{- range $field := $msg.Fields}}
     data["{{snake $field.Name}}"] as {{tconv $field.Type}},
     {{- end}}
 );

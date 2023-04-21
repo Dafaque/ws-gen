@@ -12,8 +12,8 @@ class MessageSender {
         final dynamic data = coder.encode(msg);
         chan.sink.add(data);
     }
-    {{- range $model := .Models}}
-    {{- $name := sconv $model.Name}}
+    {{- range $msg := .Messages}}
+    {{- $name := sconv $msg.Name}}
     void send{{$name}}({{$name}} msg) {
         _send(msg);
     }

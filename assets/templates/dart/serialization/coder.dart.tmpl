@@ -32,9 +32,9 @@ class DefaultCoder implements Coder {
     switch (index) {
       case MessageIndex.undefined:
         throw "Undecodable object undefined";
-      {{- range $model := .Models}}
-      case MessageIndex.{{$model.Name}}:
-        return {{$model.Name}}FromMap(data);
+      {{- range $msg := .Messages}}
+      case MessageIndex.{{$msg.Name}}:
+        return {{$msg.Name}}FromMap(data);
       {{- end}}
     }
   }

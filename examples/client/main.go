@@ -35,7 +35,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	cl.SendTextMessage(*model.NewTextMessage(123, "Hello, world!"))
+	cl.SendChatEvent(*model.NewChatEvent(123, model.EventEntered, 2.000))
 
 	done := make(chan struct{})
 	time.AfterFunc(5*time.Second, func() {

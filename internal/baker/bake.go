@@ -22,6 +22,7 @@ func bake(lang, fp, file string, conf *config.Config) error {
 	funcs["snake"] = common.ToSnakeCase
 	funcs["get_param"] = common.MakeGetParamFunc(conf.Custom)
 	funcs["tconv"] = common.MakeParseTypeFunc(
+		conf.Internal.LanguageConfig.GetPublicStructNameConverter(),
 		conf.Internal.LanguageConfig.GetTypeConverter(),
 		conf.Internal.LanguageConfig.GetTypeWrapper(),
 	)

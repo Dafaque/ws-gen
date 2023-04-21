@@ -15,8 +15,8 @@ class Client extends MessageSender {
   void onMessage(dynamic msg) {
     try {
       Mapable message = coder.decode(msg);
-      {{- range $model := .Models}}
-      {{- $name := sconv $model.Name}}
+      {{- range $msg := .Messages}}
+      {{- $name := sconv $msg.Name}}
       if (message is {{$name}}) return _handler.on{{$name}}(message, this);
       {{- end}}
     } catch (err, st) {

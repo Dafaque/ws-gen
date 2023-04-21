@@ -36,12 +36,12 @@ func NewTextMessage(
 type ChatEvent struct {
     WSMessageMeta
     ID int64 `json:"id"`
-    Event string `json:"event"`
+    Event Event `json:"event"`
     TestSnakeCaseConvertor float64 `json:"test_snake_case_convertor"`
 }
 func NewChatEvent(
     id int64,
-    event string,
+    event Event,
     testSnakeCaseConvertor float64,
 ) *ChatEvent {
     var model ChatEvent
@@ -77,3 +77,18 @@ func (ip *InitParams) ToQuery() string {
     return v.Encode()
 }
 
+type Event uint8
+const (
+    EventUndefined Event = iota
+    EventEntered
+    EventLeaved
+)
+func (e Event) String() string {
+    switch e {
+        case EventEntered:
+            return "entered"
+        case EventLeaved:
+            return "leaved"
+    }
+    return "undefined"
+}

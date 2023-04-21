@@ -5,8 +5,8 @@ import 'package:{{get_param "module"}}/{{get_param "package"}}/api/sender.dart';
 abstract class MessageHandler {
     void onConnected(MessageSender sender);
     void onDisconnected();
-    {{- range $model := .Models}}
-    {{- $name := sconv $model.Name}} 
+    {{- range $msg := .Messages}}
+    {{- $name := sconv $msg.Name}} 
     void on{{$name}}({{$name}} msg, MessageSender sender);
     {{- end}}
 }
@@ -16,8 +16,8 @@ class UnimplementedMessageHandler implements MessageHandler {
     void onConnected(MessageSender _) => throw "onConnected is not implemented";
     @override
     void onDisconnected() => throw "onDisconnected is not implemented";
-    {{- range $model := .Models}}
-    {{- $name := sconv $model.Name}}
+    {{- range $msg := .Messages}}
+    {{- $name := sconv $msg.Name}}
     @override
     void on{{$name}}({{$name}} _, MessageSender __) => throw "on{{$name}} is not implemented";
     {{- end}}

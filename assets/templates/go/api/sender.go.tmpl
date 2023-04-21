@@ -29,8 +29,8 @@ func (c *MessageSender) send(msg interface{}) error {
     return nil
 }
 
-{{- range $model := .Models}}
-{{- $name := sconv $model.Name}}
+{{- range $msg := .Messages}}
+{{- $name := sconv $msg.Name}}
 // Sends {{$name}} message
 // To instance {{$name}} message use model.New{{$name}} method
 func (c *MessageSender) Send{{$name}}(msg model.{{$name}}) error {

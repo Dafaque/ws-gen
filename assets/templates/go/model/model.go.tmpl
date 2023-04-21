@@ -11,30 +11,30 @@ import (
 type msgIdx uint8
 const (
     MsgIdxUndefined = iota
-{{- range $model := .Models}}
-    MsgIdx{{sconv $model.Name}}
+{{- range $msg := .Messages}}
+    MsgIdx{{sconv $msg.Name}}
 {{- end}}
 )
 
 type WSMessageMeta struct {
     MsgIdx msgIdx `json:"$msg_idx"`
 }
-{{range $model := .Models}}
-{{$exportedModelName := sconv $model.Name}}
+{{range $msg := .Messages}}
+{{$exportedModelName := sconv $msg.Name}}
 type {{$exportedModelName}} struct {
     WSMessageMeta
-    {{- range $field := $model.Fields}}
+    {{- range $field := $msg.Fields}}
     {{sconv $field.Name}} {{tconv $field.Type}} `json:"{{snake $field.Name}}"`
     {{- end}}
 }
 func New{{$exportedModelName}}(
-    {{- range $field := $model.Fields}}
+    {{- range $field := $msg.Fields}}
     {{$field.Name}} {{tconv $field.Type}},
     {{- end}}
 ) *{{$exportedModelName}} {
     var model {{$exportedModelName}}
     model.WSMessageMeta.MsgIdx = MsgIdx{{$exportedModelName}}
-    {{- range $field := $model.Fields}}
+    {{- range $field := $msg.Fields}}
     model.{{fconv $field.Name}} = {{$field.Name}}
     {{- end}}
     return &model
@@ -76,3 +76,24 @@ func (ip *InitParams) ToQuery() string {
 }
 {{- end}}
 
+{{- if .Enums}}
+{{- range $enum := .Enums}}
+{{$typeName := sconv $enum.Name}}
+type {{$typeName}} uint8
+const (
+    {{$typeName}}Undefined {{$typeName}} = iota
+    {{- range $val := $enum.Values }}
+    {{$typeName}}{{sconv $val}}
+    {{- end }}
+)
+func (e {{$typeName}}) String() string {
+    switch e {
+        {{- range $val := $enum.Values }}
+        case {{$typeName}}{{sconv $val}}:
+            return "{{$val}}"
+        {{- end }}
+    }
+    return "undefined"
+}
+{{- end }}
+{{- end }}

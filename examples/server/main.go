@@ -16,13 +16,9 @@ type handler struct {
 	api.UnimplementedMessageHandler
 }
 
-func (h handler) OnTextMessage(ctx context.Context, msg model.TextMessage, sender *api.MessageSender) error {
-	fmt.Printf("server got message: %s\n", msg.Content)
-	return sender.SendTextMessage(*model.NewTextMessage(321, "Hello there!"))
-}
 func (h handler) OnChatEvent(ctx context.Context, msg model.ChatEvent, sender *api.MessageSender) error {
 	fmt.Printf("server got chat event: %s : %f\n", msg.Event, msg.TestSnakeCaseConvertor)
-	return sender.SendChatEvent(msg)
+	return sender.SendTextMessage(*model.NewTextMessage(321, "Hello there!"))
 }
 
 func main() {
