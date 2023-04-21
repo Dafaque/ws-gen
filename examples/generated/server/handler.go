@@ -94,7 +94,9 @@ func (ch *connectionHandler) CloseHandler(code int, text string) error {
 	return nil
 }
 
-func NewHandler(mh api.MessageHandler, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
+type handlerMaker func() api.MessageHandler
+
+func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         params := model.NewInitParams(r.URL.Query())
         if errValidateParams := params.Validate(); errValidateParams != nil {
@@ -108,7 +110,7 @@ func NewHandler(mh api.MessageHandler, coder iface.Coder, logger iface.Logger) h
             w.WriteHeader(http.StatusInternalServerError)
         }
         defer conn.Close()
-
+        mh := hm()
         connHandler := connectionHandler{
             wq: make(chan interface{}, 10),
             conn: conn,

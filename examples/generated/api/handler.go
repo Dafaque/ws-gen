@@ -17,13 +17,13 @@ type MessageHandler interface {
 }
 
 type UnimplementedMessageHandler struct {}
+func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
+    log.Println("Init is not implemented")
+}
 func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
     log.Println("OnConnected is not implemented")
 }
 func (u UnimplementedMessageHandler) OnDisconnected() {
-    log.Println("OnDisconnected is not implemented")
-}
-func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
     log.Println("OnDisconnected is not implemented")
 }
 func (u UnimplementedMessageHandler) OnTextMessage(context.Context, model.TextMessage, *MessageSender) error {

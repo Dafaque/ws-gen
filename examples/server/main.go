@@ -26,7 +26,7 @@ func (h handler) OnChatEvent(ctx context.Context, msg model.ChatEvent, sender *a
 }
 
 func main() {
-	handler := server.NewHandler(handler{}, iface.DefaultCoder{}, log.Default())
+	handler := server.NewHandler(func() api.MessageHandler { return handler{} }, iface.DefaultCoder{}, log.Default())
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handler)
 	server := http.Server{
