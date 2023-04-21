@@ -21,17 +21,17 @@ type MessageHandler interface {
 }
 
 type UnimplementedMessageHandler struct {}
+{{- if .Init.Params }}
+func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
+    log.Println("Init is not implemented")
+}
+{{- end}}
 func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
     log.Println("OnConnected is not implemented")
 }
 func (u UnimplementedMessageHandler) OnDisconnected() {
     log.Println("OnDisconnected is not implemented")
 }
-{{- if .Init.Params }}
-func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
-    log.Println("OnDisconnected is not implemented")
-}
-{{- end}}
 
 {{- range $model := .Models}}
 {{- $name := sconv $model.Name}}
