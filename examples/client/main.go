@@ -6,10 +6,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/Dafaque/ws-gen/examples/gen/api"
-	"github.com/Dafaque/ws-gen/examples/gen/client"
-	"github.com/Dafaque/ws-gen/examples/gen/iface"
-	"github.com/Dafaque/ws-gen/examples/gen/model"
+	"github.com/Dafaque/ws-gen/examples/generated/api"
+	"github.com/Dafaque/ws-gen/examples/generated/client"
+	"github.com/Dafaque/ws-gen/examples/generated/iface"
+	"github.com/Dafaque/ws-gen/examples/generated/model"
 )
 
 type handler struct {
@@ -23,7 +23,15 @@ func (h handler) OnTextMessage(ctx context.Context, msg model.TextMessage, _ *ap
 
 func main() {
 	var h handler
-	cl, err := client.NewClient("ws://localhost:8080", h, iface.DefaultCoder{}, log.Default())
+	cl, err := client.NewClient(
+		"ws://localhost:8080",
+		&model.InitParams{
+			Chat_id: "123",
+		},
+		h,
+		iface.DefaultCoder{},
+		log.Default(),
+	)
 	if err != nil {
 		panic(err)
 	}

@@ -1,15 +1,22 @@
 encoding: json
+types:
+  id: &id
+    name: id
+    type: int64
+init:
+  params: 
+    - name: chat_id
+    - name: invisible
+      optional: true
 models:
   - name: textMessage
     fields:
-      - name: id
-        type: int64
+      - *id
       - name: content
         type: string
   - name: chatEvent
     fields:
-      - name: id
-        type: int
+      - *id
       - name: event
         type: string
       - name: testSnakeCaseConvertor

@@ -3,15 +3,24 @@ package client
 
 import (
     "context"
-    "github.com/Dafaque/ws-gen/examples/gen/iface"
-    "github.com/Dafaque/ws-gen/examples/gen/mapper"
-    "github.com/Dafaque/ws-gen/examples/gen/api"
+    "github.com/Dafaque/ws-gen/examples/generated/iface"
+    "github.com/Dafaque/ws-gen/examples/generated/mapper"
+    "github.com/Dafaque/ws-gen/examples/generated/api"
+    "github.com/Dafaque/ws-gen/examples/generated/model"
 
     "github.com/gorilla/websocket" 
 )
 
 
-func NewClient(url string, mh api.MessageHandler, coder iface.Coder, logger iface.Logger) (*Client, error) {
+func NewClient(
+    url string,
+    p *model.InitParams,
+    mh api.MessageHandler,
+    coder iface.Coder,
+    logger iface.Logger,
+) (*Client, error) {
+    url += "?"
+    url += p.ToQuery()
 	conn, _, err := websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		return nil, err

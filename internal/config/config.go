@@ -14,9 +14,10 @@ var availableEncodingFormats []string = []string{"json"}
 
 type (
 	Config struct {
-		FullPath string            `yaml:"-"`
 		Models   []model           `yaml:"models"`
 		Encoding string            `yaml:"encoding"`
+		Init     initParams        `yaml:"init"`
+		FullPath string            `yaml:"-"`
 		Custom   map[string]string `yaml:"-"`
 		Internal internal          `yaml:"-"`
 	}
@@ -27,6 +28,13 @@ type (
 	field struct {
 		Name string `yaml:"name"`
 		Type string `yaml:"type"`
+	}
+	initParams struct {
+		Presented bool `yaml:"-"`
+		Params    []struct {
+			Name     string `yaml:"name"`
+			Optional bool   `yaml:"optional"`
+		} `yaml:"params"`
 	}
 	internal struct {
 		GenerateMode   string

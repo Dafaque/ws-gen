@@ -4,9 +4,10 @@ package server
 import (
     "context"
     "net/http"
-    "github.com/Dafaque/ws-gen/examples/gen/iface"
-    "github.com/Dafaque/ws-gen/examples/gen/mapper"
-    "github.com/Dafaque/ws-gen/examples/gen/api"
+    "github.com/Dafaque/ws-gen/examples/generated/model"
+    "github.com/Dafaque/ws-gen/examples/generated/iface"
+    "github.com/Dafaque/ws-gen/examples/generated/mapper"
+    "github.com/Dafaque/ws-gen/examples/generated/api"
     
     "github.com/gorilla/websocket"
 )
@@ -95,6 +96,12 @@ func (ch *connectionHandler) CloseHandler(code int, text string) error {
 
 func NewHandler(mh api.MessageHandler, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
+        params := model.NewInitParams(r.URL.Query())
+        if errValidateParams := params.Validate(); errValidateParams != nil {
+            w.WriteHeader(http.StatusBadRequest)
+            w.Write([]byte(errValidateParams.Error()))
+            return
+        }
         var upgrader = websocket.Upgrader{}
         conn, err := upgrader.Upgrade(w, r, nil)
         if err != nil {
@@ -112,7 +119,7 @@ func NewHandler(mh api.MessageHandler, coder iface.Coder, logger iface.Logger) h
         }
 
 		conn.SetCloseHandler(connHandler.CloseHandler)
-
+        connHandler.mh.Init(r.Context(), params)
         connHandler.mh.OnConnected(
             r.Context(),
             api.NewMessageSender(conn, coder),

@@ -4,10 +4,12 @@ import (
     "log"
     "errors"
     "context"
-    "github.com/Dafaque/ws-gen/examples/gen/model"
+    "github.com/Dafaque/ws-gen/examples/generated/model"
 
 )
 type MessageHandler interface {
+    //@todo deadcode for client
+    Init(context.Context, *model.InitParams)
     OnConnected(context.Context, *MessageSender)
     OnDisconnected()
     OnTextMessage(context.Context, model.TextMessage, *MessageSender) error
@@ -15,15 +17,18 @@ type MessageHandler interface {
 }
 
 type UnimplementedMessageHandler struct {}
-func (u UnimplementedMessageHandler) OnConnected(ctx context.Context, sender *MessageSender) {
+func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
     log.Println("OnConnected is not implemented")
 }
 func (u UnimplementedMessageHandler) OnDisconnected() {
     log.Println("OnDisconnected is not implemented")
 }
-func (u UnimplementedMessageHandler) OnTextMessage(ctx context.Context, msg model.TextMessage, sender *MessageSender) error {
+func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
+    log.Println("OnDisconnected is not implemented")
+}
+func (u UnimplementedMessageHandler) OnTextMessage(context.Context, model.TextMessage, *MessageSender) error {
     return errors.New("OnTextMessage is not implemented")
 }
-func (u UnimplementedMessageHandler) OnChatEvent(ctx context.Context, msg model.ChatEvent, sender *MessageSender) error {
+func (u UnimplementedMessageHandler) OnChatEvent(context.Context, model.ChatEvent, *MessageSender) error {
     return errors.New("OnChatEvent is not implemented")
 }

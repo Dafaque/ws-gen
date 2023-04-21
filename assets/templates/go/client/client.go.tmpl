@@ -6,12 +6,27 @@ import (
     "{{get_param "module"}}/{{get_param "package"}}/iface"
     "{{get_param "module"}}/{{get_param "package"}}/mapper"
     "{{get_param "module"}}/{{get_param "package"}}/api"
+    {{- if .Init.Params}}
+    "{{get_param "module"}}/{{get_param "package"}}/model"
+    {{- end}}
 
     "github.com/gorilla/websocket" 
 )
 
 
-func NewClient(url string, mh api.MessageHandler, coder iface.Coder, logger iface.Logger) (*Client, error) {
+func NewClient(
+    url string,
+    {{- if .Init.Params}}
+    p *model.InitParams,
+    {{- end}}
+    mh api.MessageHandler,
+    coder iface.Coder,
+    logger iface.Logger,
+) (*Client, error) {
+    {{- if .Init.Params}}
+    url += "?"
+    url += p.ToQuery()
+    {{- end}}
 	conn, _, err := websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		return nil, err

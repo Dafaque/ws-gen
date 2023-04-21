@@ -1,3 +1,3 @@
 package examples
 
-//go:generate wsgen -l go -g all
+//go:generate ws-gen -l go -g all
