@@ -2,6 +2,7 @@ package dart
 
 import (
 	"fmt"
+	"text/template"
 
 	"github.com/Dafaque/ws-gen/internal/baker/settings"
 	"github.com/Dafaque/ws-gen/internal/baker/settings/common"
@@ -26,4 +27,10 @@ func (c Config) GetCompleteMessage() string {
 	var str string
 	str += fmt.Sprintln("Now run `dart pub add web_socket_channel`")
 	return str
+}
+func (c Config) GetSpecialFuncs() template.FuncMap {
+	return template.FuncMap{
+		"listtypecast": wrapListTypeCast,
+		"reftoname":    refToEnumName,
+	}
 }

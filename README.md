@@ -27,7 +27,83 @@ WebSocket multi-language code generation tool
     path to spec file (default "wsgen.spec.yml")
 -v    show version
 ```
-### Config
+
+# Data primitives
+```
+* int8
+* int16
+* int32
+* int64
+* int
+* uint8
+* uint16
+* uint32
+* uint64
+* uint
+* float
+* float32
+* float64
+* string
+```
+Each type have two modifiers combinable:
+1. prefix `...`, which means array (list)
+2. suffix `?`, which means optional (nullable) type
+
+# Spec reference
+```
+# message packing format
+encoding: json
+# init section describes GET variables
+# that will be passed before WebSocket
+# connection start to handle messages.
+init:
+  params: 
+    - name: chatId # well be converted in snake_case in URL
+    - name: invisible
+      optional: true # no error if empty
+# enums section describes, well, enums.
+# values will be packed as indexes
+# 0 index reserved for "undefined"
+# you can reference enums by typing $ and "name" of enum
+enums:
+  - name: event
+    values:
+      - entered
+      - leaved
+# aliases is not a spec section
+# i use it here just for "caching" some fields
+# that will be used more than once
+# you may read more about YAML aliases 
+# and anchors and be free to use them here.
+aliases: 
+  id: &id
+    name: id
+    type: int64
+# messages section is where all boilerplate lives
+# every message will contain $msg_idx field
+# by which Handler will call On{$message.name} method
+# it is better to use generated message constructors
+# wich will assign $msg_idx for you 
+messages:
+  - name: textMessage # use camelCase, please
+    fields:
+      - *id # alias
+      - name: content
+        type: string? # optional (nullable) string
+      - name: arrayFieldExample
+        type: ...int64 # array (list) of integers
+      - name: arrayOptionalFieldExample
+        type: ...float64? # array (list) of otional (nullable) floats
+  - name: chatEvent
+    fields:
+      - *id
+      - name: event
+        type: $event # enum reference
+      - name: testSnakeCaseConvertor # camelCase, please
+        type: float
+```
+
+# Config
 All project-specific params must be located in `wsgen.config.yml` file.
 
 Required parameters:
@@ -42,7 +118,6 @@ root: ../ # path that will be prepended to "module" param
 ```
 
 # Contribute
-###
 1. Create an issue
 1. Clone
 1. Create branch

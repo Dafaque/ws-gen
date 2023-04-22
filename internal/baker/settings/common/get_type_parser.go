@@ -19,7 +19,7 @@ func parseType(
 	w settings.TypeWrapper,
 ) string {
 	var raw = dt
-	if strings.HasPrefix(raw, "$") {
+	if IsEnum(raw) {
 		raw = raw[1:]
 		return mo(raw)
 	}
@@ -27,10 +27,18 @@ func parseType(
 	if nullable = strings.HasSuffix(dt, "?"); nullable {
 		raw = raw[:len(raw)-1]
 	}
-	if array = strings.HasPrefix(dt, "..."); array {
+	if array = IsList(dt); array {
 		raw = raw[3:]
 	}
 	raw = o(raw)
 	raw = w(raw, nullable, array)
 	return raw
+}
+
+func IsList(dt string) bool {
+	return strings.HasPrefix(dt, "...")
+}
+
+func IsEnum(dt string) bool {
+	return strings.HasPrefix(dt, "$")
 }

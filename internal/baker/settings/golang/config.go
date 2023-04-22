@@ -2,6 +2,7 @@ package golang
 
 import (
 	"fmt"
+	"html/template"
 
 	"github.com/Dafaque/ws-gen/internal/baker/settings"
 )
@@ -24,4 +25,7 @@ func (c Config) GetCompleteMessage() string {
 	var str string
 	str += fmt.Sprintln("Run go mod tidy to install dependencies")
 	return str
+}
+func (c Config) GetSpecialFuncs() template.FuncMap {
+	return nil
 }

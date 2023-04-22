@@ -17,7 +17,7 @@ type handler struct {
 }
 
 func (h handler) OnTextMessage(ctx context.Context, msg model.TextMessage, _ *api.MessageSender) error {
-	fmt.Printf("client got message: %s\n", msg.Content)
+	fmt.Printf("client got message: %s\n", *msg.Content)
 	return nil
 }
 func (h handler) OnDisconnected(code int, reason string) {
@@ -29,7 +29,7 @@ func main() {
 	cl, err := client.NewClient(
 		"ws://localhost:8080",
 		&model.InitParams{
-			Chat_id: "123",
+			ChatId: "123",
 		},
 		h,
 		iface.DefaultCoder{},

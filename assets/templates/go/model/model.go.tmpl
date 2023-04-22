@@ -70,7 +70,7 @@ func (ip *InitParams) ToQuery() string {
     //@todo dead code for server
     v := url.Values{}
     {{- range $param := .Init.Params }}
-    v.Set("{{$param.Name}}", ip.{{fconv $param.Name}})
+    v.Set("{{snake $param.Name}}", ip.{{fconv $param.Name}})
     {{- end }}
     return v.Encode()
 }

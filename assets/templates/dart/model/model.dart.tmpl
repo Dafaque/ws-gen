@@ -28,8 +28,15 @@ class {{$name}} implements Encodable {
 
 {{$name}} {{$msg.Name}}FromMap(Map<String, dynamic> data) => {{$name}}(
     {{- range $field := $msg.Fields}}
+    {{- if isenum $field.Type}}
+    {{reftoname $field.Type}}.values[data["{{snake $field.Name}}"] as int],
+    {{- else }} {{- if islist $field.Type }}
+    (data["{{snake $field.Name}}"] as List).map((item) => item as {{listtypecast $field.Type}}).toList(),
+    {{- else }}
     data["{{snake $field.Name}}"] as {{tconv $field.Type}},
-    {{- end}}
+    {{- end }}
+    {{- end }}
+    {{- end }}
 );
 {{end}}
 

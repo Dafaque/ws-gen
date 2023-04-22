@@ -1,5 +1,7 @@
 package settings
 
+import "html/template"
+
 type StringOverrider func(string) string
 type TypeWrapper func(t string, nullable, array bool) string
 
@@ -9,6 +11,7 @@ type LanguageSettings interface {
 	GetPublicFieldNameConverter() StringOverrider
 	GetPublicStructNameConverter() StringOverrider
 	GetCompleteMessage() string
+	GetSpecialFuncs() template.FuncMap
 }
 
 var configs map[string]LanguageSettings = make(map[string]LanguageSettings)

@@ -1,6 +1,10 @@
 package dart
 
-import "github.com/Dafaque/ws-gen/internal/baker/settings"
+import (
+	"strings"
+
+	"github.com/Dafaque/ws-gen/internal/baker/settings"
+)
 
 func convertType(t string) string {
 	switch t {
@@ -35,4 +39,19 @@ func wrapType(dt string, nullable, array bool) string {
 		str = "List<" + str + ">"
 	}
 	return str
+}
+
+// @todo i think this smells
+func wrapListTypeCast(dt string) string {
+	str := strings.Replace(dt, "...", "", 1)
+	str = strings.Replace(str, "?", "", 1)
+	str = convertType(str)
+	if strings.HasSuffix(dt, "?") {
+		str += "?"
+	}
+	return str
+}
+
+func refToEnumName(ref string) string {
+	return normaizeStructName(strings.ReplaceAll(ref, "$", ""))
 }

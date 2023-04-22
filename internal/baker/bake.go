@@ -26,6 +26,11 @@ func bake(lang, fp, file string, conf *config.Config) error {
 		conf.Internal.LanguageConfig.GetTypeConverter(),
 		conf.Internal.LanguageConfig.GetTypeWrapper(),
 	)
+	funcs["islist"] = common.IsList
+	funcs["isenum"] = common.IsEnum
+	for name, fn := range conf.Internal.LanguageConfig.GetSpecialFuncs() {
+		funcs[name] = fn
+	}
 	tmpl.Funcs(funcs)
 	tmpl, errParse := tmpl.Parse(file)
 	if errParse != nil {

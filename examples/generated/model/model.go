@@ -20,16 +20,22 @@ type WSMessageMeta struct {
 type TextMessage struct {
     WSMessageMeta
     ID int64 `json:"id"`
-    Content string `json:"content"`
+    Content *string `json:"content"`
+    ArrayFieldExample []int64 `json:"array_field_example"`
+    ArrayOptionalFieldExample []*float64 `json:"array_optional_field_example"`
 }
 func NewTextMessage(
     id int64,
-    content string,
+    content *string,
+    arrayFieldExample []int64,
+    arrayOptionalFieldExample []*float64,
 ) *TextMessage {
     var model TextMessage
     model.WSMessageMeta.MsgIdx = MsgIdxTextMessage
     model.ID = id
     model.Content = content
+    model.ArrayFieldExample = arrayFieldExample
+    model.ArrayOptionalFieldExample = arrayOptionalFieldExample
     return &model
 }
 
@@ -52,27 +58,27 @@ func NewChatEvent(
     return &model
 }
 type InitParams struct {
-    Chat_id string
+    ChatId string
     Invisible string
 }
 
 func NewInitParams(v url.Values) *InitParams {
     ip := new(InitParams)
-    ip.Chat_id = v.Get("chat_id")
+    ip.ChatId = v.Get("chat_id")
     ip.Invisible = v.Get("invisible")
     return ip
 }
 func (ip *InitParams) Validate() error {
     //@todo dead code for client
-    if len(ip.Chat_id) == 0 {
-        return errors.New("missing parameter chat_id")
+    if len(ip.ChatId) == 0 {
+        return errors.New("missing parameter chatId")
     }
     return nil
 }
 func (ip *InitParams) ToQuery() string {
     //@todo dead code for server
     v := url.Values{}
-    v.Set("chat_id", ip.Chat_id)
+    v.Set("chat_id", ip.ChatId)
     v.Set("invisible", ip.Invisible)
     return v.Encode()
 }
