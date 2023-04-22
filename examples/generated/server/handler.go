@@ -2,9 +2,9 @@
 package server
 
 import (
+    "time"
     "context"
     "net/http"
-    "time"
     "github.com/Dafaque/ws-gen/examples/generated/model"
     "github.com/Dafaque/ws-gen/examples/generated/iface"
     "github.com/Dafaque/ws-gen/examples/generated/mapper"
@@ -95,6 +95,17 @@ func (ch *connectionHandler) CloseHandler(code int, reason string) error {
 	return nil
 }
 
+func (ch *connectionHandler) close(code int, text string) {
+    ch.conn.WriteControl(
+        websocket.CloseMessage,
+        websocket.FormatCloseMessage(
+            code,
+            text,
+        ),
+        time.Now().Add(5*time.Second), //@todo write deadlines from config
+    )
+}
+
 type handlerMaker func() api.MessageHandler
 
 func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
@@ -103,18 +114,6 @@ func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.Ha
         conn, err := upgrader.Upgrade(w, r, nil)
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            return
-        }
-        params := model.NewInitParams(r.URL.Query())
-        if errValidateParams := params.Validate(); errValidateParams != nil {
-            conn.WriteControl(
-                websocket.CloseMessage,
-                websocket.FormatCloseMessage(
-                    websocket.CloseUnsupportedData,
-                    errValidateParams.Error(),
-                ),
-                time.Now().Add(5*time.Second), //@todo write deadlines from config
-            )
             return
         }
         defer conn.Close()
@@ -129,7 +128,15 @@ func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.Ha
         }
 
 		conn.SetCloseHandler(connHandler.CloseHandler)
-        connHandler.mh.Init(r.Context(), params)
+        params := model.NewInitParams(r.URL.Query())
+        if errValidateParams := params.Validate(); errValidateParams != nil {
+            connHandler.close(websocket.CloseUnsupportedData, errValidateParams.Error())
+            return
+        }
+        if err := connHandler.mh.Init(r.Context(), params); err != nil {
+            connHandler.close(websocket.CloseUnsupportedData, err.Error())
+            return
+        }
         connHandler.mh.OnConnected(
             r.Context(),
             api.NewMessageSender(conn, coder),

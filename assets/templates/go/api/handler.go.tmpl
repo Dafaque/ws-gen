@@ -10,9 +10,9 @@ import (
 type MessageHandler interface {
     {{- if .Init.Params }}
     //@todo deadcode for client
-    Init(context.Context, *model.InitParams)
+    Init(context.Context, *model.InitParams) error
     {{- end}}
-    OnConnected(context.Context, *MessageSender)
+    OnConnected(context.Context, *MessageSender) error
     OnDisconnected(int, string)
     {{- range $msg := .Messages}}
     {{- $name := sconv $msg.Name}}
@@ -22,12 +22,14 @@ type MessageHandler interface {
 
 type UnimplementedMessageHandler struct {}
 {{- if .Init.Params }}
-func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
+func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) error {
     log.Println("Init is not implemented")
+    return nil
 }
 {{- end}}
-func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
+func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) error {
     log.Println("OnConnected is not implemented")
+    return nil
 }
 func (u UnimplementedMessageHandler) OnDisconnected(int, string) {
     log.Println("OnDisconnected is not implemented")

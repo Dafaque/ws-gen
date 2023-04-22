@@ -20,6 +20,9 @@ func (h handler) OnChatEvent(ctx context.Context, msg model.ChatEvent, sender *a
 	fmt.Printf("server got chat event: %s : %f\n", msg.Event, msg.TestSnakeCaseConvertor)
 	return sender.SendTextMessage(*model.NewTextMessage(321, "Hello there!"))
 }
+func (h handler) OnDisconnected(code int, reason string) {
+	fmt.Printf("Disconnected client: code=%d, reason=%s", code, reason)
+}
 
 func main() {
 	handler := server.NewHandler(func() api.MessageHandler { return handler{} }, iface.DefaultCoder{}, log.Default())

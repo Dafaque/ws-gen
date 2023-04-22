@@ -2,6 +2,7 @@
 package client
 
 import (
+    "time"
     "context"
     "github.com/Dafaque/ws-gen/examples/generated/iface"
     "github.com/Dafaque/ws-gen/examples/generated/mapper"
@@ -46,7 +47,7 @@ type Client struct {
 }
 
 func (c *Client) Shutdown() {
-	c.conn.Close()
+	c.close(websocket.CloseNormalClosure, "")
 }
 
 func (c *Client) GetConn() *websocket.Conn {
@@ -72,7 +73,16 @@ func (c *Client) CloseHandler(code int, reason string) error {
 	c.mh.OnDisconnected(code, reason)
     return nil
 }
-
+func (c *Client) close(code int, text string) {
+    c.conn.WriteControl(
+        websocket.CloseMessage,
+        websocket.FormatCloseMessage(
+            code,
+            text,
+        ),
+        time.Now().Add(5*time.Second), //@todo write deadlines from config
+    )
+}
 func (c *Client) rloop() {
     for {
         if c.done {

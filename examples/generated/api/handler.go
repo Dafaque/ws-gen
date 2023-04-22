@@ -9,19 +9,21 @@ import (
 )
 type MessageHandler interface {
     //@todo deadcode for client
-    Init(context.Context, *model.InitParams)
-    OnConnected(context.Context, *MessageSender)
+    Init(context.Context, *model.InitParams) error
+    OnConnected(context.Context, *MessageSender) error
     OnDisconnected(int, string)
     OnTextMessage(context.Context, model.TextMessage, *MessageSender) error
     OnChatEvent(context.Context, model.ChatEvent, *MessageSender) error
 }
 
 type UnimplementedMessageHandler struct {}
-func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
+func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) error {
     log.Println("Init is not implemented")
+    return nil
 }
-func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
+func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) error {
     log.Println("OnConnected is not implemented")
+    return nil
 }
 func (u UnimplementedMessageHandler) OnDisconnected(int, string) {
     log.Println("OnDisconnected is not implemented")
