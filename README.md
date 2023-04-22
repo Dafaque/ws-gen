@@ -108,13 +108,13 @@ All project-specific params must be located in `wsgen.config.yml` file.
 
 Required parameters:
 ```
-module: wsgen/examples # relative path for codegen
-package: gen # codegen directory
+module: wsgen-project # name of you app or module. Used for imports
+package: examples/gen # relative path for codegen
 ```
 
 Optional parameters:
 ```
-root: ../ # path that will be prepended to "module" param
+root: ../ # path that will be prepended to "package" param
 ```
 
 # Contribute
