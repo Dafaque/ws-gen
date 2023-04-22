@@ -1,6 +1,6 @@
 package settings
 
-import "html/template"
+import "text/template"
 
 type StringOverrider func(string) string
 type TypeWrapper func(t string, nullable, array bool) string

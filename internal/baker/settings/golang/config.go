@@ -2,7 +2,7 @@ package golang
 
 import (
 	"fmt"
-	"html/template"
+	"text/template"
 
 	"github.com/Dafaque/ws-gen/internal/baker/settings"
 )
