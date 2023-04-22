@@ -23,8 +23,12 @@ class Client extends MessageSender {
         attachListener();
     }
     void attachListener() {
-    chan.stream.listen(onMessage);
-  }
+      chan.stream.listen(onMessage, onDone: onDisconnected);
+    }
+
+    void onDisconnected() =>
+        _handler.onDisconnected(chan.closeCode, chan.closeReason);
+
   void onMessage(dynamic msg) {
     try {
       Encodable message = coder.decode(msg);

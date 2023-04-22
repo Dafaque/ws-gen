@@ -23,6 +23,9 @@ class MessageSender {
         final dynamic data = coder.encode(msg);
         chan.sink.add(data);
     }
+
+    void close() => chan.sink.close(1000);
+
     {{- range $msg := .Messages}}
     {{- $name := sconv $msg.Name}}
     void send{{$name}}({{$name}} msg) {

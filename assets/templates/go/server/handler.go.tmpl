@@ -94,11 +94,11 @@ func (ch *connectionHandler) CloseHandler(code int, reason string) error {
     }
 	ch.done = true
 	ch.mh.OnDisconnected(code, reason)
-	return nil
+	return ch.close(websocket.CloseNormalClosure, "")
 }
 
-func (ch *connectionHandler) close(code int, text string) {
-    ch.conn.WriteControl(
+func (ch *connectionHandler) close(code int, text string) error {
+    return ch.conn.WriteControl(
         websocket.CloseMessage,
         websocket.FormatCloseMessage(
             code,
