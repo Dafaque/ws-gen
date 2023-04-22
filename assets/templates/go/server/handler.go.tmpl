@@ -5,6 +5,7 @@ import (
     "context"
     "net/http"
     {{- if .Init.Params }}
+    "time"
     "{{get_param "module"}}/{{get_param "package"}}/model"
     {{- end }}
     "{{get_param "module"}}/{{get_param "package"}}/iface"
@@ -87,12 +88,12 @@ func (ch *connectionHandler) loop() {
     ch.rloop()
 }
 
-func (ch *connectionHandler) CloseHandler(code int, text string) error {
+func (ch *connectionHandler) CloseHandler(code int, reason string) error {
     if ch.done {
         return nil
     }
 	ch.done = true
-	ch.mh.OnDisconnected()
+	ch.mh.OnDisconnected(code, reason)
 	return nil
 }
 
@@ -100,19 +101,26 @@ type handlerMaker func() api.MessageHandler
 
 func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
-        {{- if .Init.Params }}
-        params := model.NewInitParams(r.URL.Query())
-        if errValidateParams := params.Validate(); errValidateParams != nil {
-            w.WriteHeader(http.StatusBadRequest)
-            w.Write([]byte(errValidateParams.Error()))
-            return
-        } 
-        {{- end}}
         var upgrader = websocket.Upgrader{}
         conn, err := upgrader.Upgrade(w, r, nil)
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
+            return
         }
+        {{- if .Init.Params }}
+        params := model.NewInitParams(r.URL.Query())
+        if errValidateParams := params.Validate(); errValidateParams != nil {
+            conn.WriteControl(
+                websocket.CloseMessage,
+                websocket.FormatCloseMessage(
+                    websocket.CloseUnsupportedData,
+                    errValidateParams.Error(),
+                ),
+                time.Now().Add(5*time.Second), //@todo write deadlines from config
+            )
+            return
+        }
+        {{- end}}
         defer conn.Close()
         mh := hm()
         connHandler := connectionHandler{

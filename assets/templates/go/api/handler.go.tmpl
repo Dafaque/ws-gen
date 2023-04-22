@@ -13,7 +13,7 @@ type MessageHandler interface {
     Init(context.Context, *model.InitParams)
     {{- end}}
     OnConnected(context.Context, *MessageSender)
-    OnDisconnected()
+    OnDisconnected(int, string)
     {{- range $msg := .Messages}}
     {{- $name := sconv $msg.Name}}
     On{{$name}}(context.Context, model.{{$name}}, *MessageSender) error
@@ -29,7 +29,7 @@ func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
 func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
     log.Println("OnConnected is not implemented")
 }
-func (u UnimplementedMessageHandler) OnDisconnected() {
+func (u UnimplementedMessageHandler) OnDisconnected(int, string) {
     log.Println("OnDisconnected is not implemented")
 }
 

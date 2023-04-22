@@ -11,7 +11,7 @@ type MessageHandler interface {
     //@todo deadcode for client
     Init(context.Context, *model.InitParams)
     OnConnected(context.Context, *MessageSender)
-    OnDisconnected()
+    OnDisconnected(int, string)
     OnTextMessage(context.Context, model.TextMessage, *MessageSender) error
     OnChatEvent(context.Context, model.ChatEvent, *MessageSender) error
 }
@@ -23,7 +23,7 @@ func (u UnimplementedMessageHandler) Init(context.Context, *model.InitParams) {
 func (u UnimplementedMessageHandler) OnConnected(context.Context, *MessageSender) {
     log.Println("OnConnected is not implemented")
 }
-func (u UnimplementedMessageHandler) OnDisconnected() {
+func (u UnimplementedMessageHandler) OnDisconnected(int, string) {
     log.Println("OnDisconnected is not implemented")
 }
 func (u UnimplementedMessageHandler) OnTextMessage(context.Context, model.TextMessage, *MessageSender) error {

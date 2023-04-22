@@ -4,6 +4,7 @@ package server
 import (
     "context"
     "net/http"
+    "time"
     "github.com/Dafaque/ws-gen/examples/generated/model"
     "github.com/Dafaque/ws-gen/examples/generated/iface"
     "github.com/Dafaque/ws-gen/examples/generated/mapper"
@@ -85,12 +86,12 @@ func (ch *connectionHandler) loop() {
     ch.rloop()
 }
 
-func (ch *connectionHandler) CloseHandler(code int, text string) error {
+func (ch *connectionHandler) CloseHandler(code int, reason string) error {
     if ch.done {
         return nil
     }
 	ch.done = true
-	ch.mh.OnDisconnected()
+	ch.mh.OnDisconnected(code, reason)
 	return nil
 }
 
@@ -98,16 +99,23 @@ type handlerMaker func() api.MessageHandler
 
 func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
-        params := model.NewInitParams(r.URL.Query())
-        if errValidateParams := params.Validate(); errValidateParams != nil {
-            w.WriteHeader(http.StatusBadRequest)
-            w.Write([]byte(errValidateParams.Error()))
-            return
-        }
         var upgrader = websocket.Upgrader{}
         conn, err := upgrader.Upgrade(w, r, nil)
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
+            return
+        }
+        params := model.NewInitParams(r.URL.Query())
+        if errValidateParams := params.Validate(); errValidateParams != nil {
+            conn.WriteControl(
+                websocket.CloseMessage,
+                websocket.FormatCloseMessage(
+                    websocket.CloseUnsupportedData,
+                    errValidateParams.Error(),
+                ),
+                time.Now().Add(5*time.Second), //@todo write deadlines from config
+            )
+            return
         }
         defer conn.Close()
         mh := hm()

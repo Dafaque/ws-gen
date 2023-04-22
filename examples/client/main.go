@@ -20,6 +20,9 @@ func (h handler) OnTextMessage(ctx context.Context, msg model.TextMessage, _ *ap
 	fmt.Printf("client got message: %s\n", msg.Content)
 	return nil
 }
+func (h handler) OnDisconnected(code int, reason string) {
+	fmt.Printf("Disconnected from server: code=%d, reason=%s", code, reason)
+}
 
 func main() {
 	var h handler

@@ -69,6 +69,7 @@ func (c *Client) GetLogger() iface.Logger {
 }
 func (c *Client) CloseHandler(code int, reason string) error {
     c.done = true
+	c.mh.OnDisconnected(code, reason)
     return nil
 }
 
