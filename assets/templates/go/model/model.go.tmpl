@@ -76,7 +76,6 @@ func (ip *InitParams) ToQuery() string {
 }
 {{- end}}
 
-{{- if .Enums}}
 {{- range $enum := .Enums}}
 {{$typeName := sconv $enum.Name}}
 type {{$typeName}} uint8
@@ -95,5 +94,4 @@ func (e {{$typeName}}) String() string {
     }
     return "undefined"
 }
-{{- end }}
 {{- end }}

@@ -4,11 +4,22 @@ import 'package:{{get_param "module"}}/{{get_param "package"}}/model/model.dart'
 import 'package:{{get_param "module"}}/{{get_param "package"}}/serialization/coder.dart';
 
 class MessageSender {
-    final WebSocketChannel chan;
-    final Coder coder;
-    MessageSender(this.chan, this.coder);
+    late final WebSocketChannel chan;
+    late final Coder coder;
+    MessageSender(
+        String addr,
+        {{- if .Init.Params }}
+        InitParams params,
+        {{- end }}
+        this.coder,
+    ) {
+        {{- if .Init.Params }}
+        addr += params.toQuery();
+        {{- end }}
+        chan = WebSocketChannel.connect(Uri.parse(addr));
+    }
 
-    void _send(Mapable msg) {
+    void _send(Encodable msg) {
         final dynamic data = coder.encode(msg);
         chan.sink.add(data);
     }

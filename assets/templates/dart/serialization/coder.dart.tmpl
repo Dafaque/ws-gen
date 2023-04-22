@@ -5,24 +5,23 @@ import 'dart:convert' show json;
 var encoder = json;
 {{- end}}
 
-abstract class Mapable {
-  Map<String, dynamic> toMap();
+abstract class Encodable {
+  dynamic toEncodable();
 }
 
 abstract class Coder {
-    dynamic encode(Mapable m);
-    Mapable decode(dynamic data);
+    dynamic encode(Encodable m);
+    Encodable decode(dynamic data);
 }
-
 
 class DefaultCoder implements Coder {
   @override
-  dynamic encode(Mapable m) {
-    return encoder.encode(m.toMap());
+  dynamic encode(Encodable m) {
+    return encoder.encode(m, toEncodable: (obj) => (obj as Encodable).toEncodable());
   }
 
   @override
-  Mapable decode(dynamic msg) {
+  Encodable decode(dynamic msg) {
     Map<String, dynamic> data = encoder.decode(String.fromCharCodes(msg));
     int idx = data["\$msg_idx"];
     if (idx > MessageIndex.values.length) {

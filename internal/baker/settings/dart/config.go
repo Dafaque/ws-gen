@@ -24,6 +24,6 @@ func (c Config) GetPublicStructNameConverter() settings.StringOverrider {
 }
 func (c Config) GetCompleteMessage() string {
 	var str string
-	str += fmt.Sprintln("WIP")
+	str += fmt.Sprintln("Now run `dart pub add web_socket_channel`")
 	return str
 }

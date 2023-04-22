@@ -8,7 +8,7 @@ enum MessageIndex {
 }
 {{- range $msg := .Messages}}
 {{- $name := sconv $msg.Name}}
-class {{$name}} implements Mapable {
+class {{$name}} implements Encodable {
     {{- range $field := $msg.Fields}}
     final {{tconv $field.Type}} {{fconv $field.Name}};
     {{- end}}
@@ -18,8 +18,8 @@ class {{$name}} implements Mapable {
         {{- end}}
     );
     @override
-    Map<String, dynamic> toMap() => <String, dynamic>{
-        "\$msg_idx": MessageIndex.values.indexOf(MessageIndex.{{$msg.Name}}),
+    Map<String, dynamic> toEncodable() => <String, dynamic>{
+        "\$msg_idx": MessageIndex.{{$msg.Name}}.index,
         {{- range $field := $msg.Fields}}
         "{{snake $field.Name}}": {{fconv $field.Name}},
         {{- end}}
@@ -32,3 +32,41 @@ class {{$name}} implements Mapable {
     {{- end}}
 );
 {{end}}
+
+{{- if .Init.Params }}
+class InitParams {
+    {{- range $param := .Init.Params }}
+    final String {{fconv $param.Name}};
+    {{- end }}
+    InitParams(
+        {{- range $param := .Init.Params}}
+        this.{{fconv $param.Name}},
+        {{- end}}
+    );
+    String toQuery() {
+        List<String> components = [
+            {{- range $param := .Init.Params}}
+            "{{snake $param.Name}}=${{fconv $param.Name}}",
+            {{- end}}
+        ];
+        return "?${components.join("&")}";
+    }
+}
+{{- end }}
+
+{{- if .Enums }}
+mixin EnumEncodable<T extends Enum> on Enum implements Encodable {
+  @override
+  dynamic toEncodable() => index;
+}
+{{- end }}
+
+{{- range $enum := .Enums}}
+{{$typeName := sconv $enum.Name}}
+enum {{sconv $enum.Name}} with EnumEncodable {
+    undefined,
+    {{- range $val := $enum.Values }}
+    {{$val}},
+    {{- end }}
+}
+{{- end }}

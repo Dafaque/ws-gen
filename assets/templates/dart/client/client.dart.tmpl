@@ -6,7 +6,20 @@ import 'package:{{get_param "module"}}/{{get_param "package"}}/serialization/cod
 
 class Client extends MessageSender {
     final MessageHandler _handler;
-    Client(this._handler, super.chan, super.coder){
+    Client(
+      this._handler,
+      String addr,
+      {{- if .Init.Params }}
+      InitParams params,
+      {{- end }}
+      Coder coder,
+    ): super(
+      addr,
+      {{- if .Init.Params }}
+      params,
+      {{- end }}
+      coder
+    ) {
         attachListener();
     }
     void attachListener() {
@@ -14,7 +27,7 @@ class Client extends MessageSender {
   }
   void onMessage(dynamic msg) {
     try {
-      Mapable message = coder.decode(msg);
+      Encodable message = coder.decode(msg);
       {{- range $msg := .Messages}}
       {{- $name := sconv $msg.Name}}
       if (message is {{$name}}) return _handler.on{{$name}}(message, this);

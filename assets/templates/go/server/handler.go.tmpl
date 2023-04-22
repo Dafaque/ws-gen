@@ -108,9 +108,9 @@ func (ch *connectionHandler) close(code int, text string) {
     )
 }
 
-type handlerMaker func() api.MessageHandler
+type HandlerMaker func() api.MessageHandler
 
-func NewHandler(hm handlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
+func NewHandler(hm HandlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         var upgrader = websocket.Upgrader{}
         conn, err := upgrader.Upgrade(w, r, nil)
