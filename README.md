@@ -13,7 +13,7 @@ WebSocket multi-language code generation tool
 ### With Go
 `go install github.com/Dafaque/ws-gen`
 ### With Homebrew
-`brew tap Dafaque/wsgen && brew install ws-gen`
+`brew tap Dafaque/ws-gen && brew install ws-gen`
 
 # Usage
 ```
