@@ -1,5 +1,10 @@
 :bangbang: **This software is in early alpha stage and not recomended to anyone.** :bangbang:
 
+Check [this](https://github.com/users/Dafaque/projects/1) page and help me!
+
+-----
+
+
 WebSocket multi-language code generation tool
 
 # Supported languages
