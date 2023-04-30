@@ -28,7 +28,8 @@ class Client extends MessageSender {
 
     void onDisconnected() =>
         _handler.onDisconnected(chan.closeCode, chan.closeReason);
-
+  
+  Function(Object err, StackTrace st)? onError;
   void onMessage(dynamic msg) {
     try {
       Encodable message = coder.decode(msg);
@@ -37,9 +38,9 @@ class Client extends MessageSender {
       if (message is {{$name}}) return _handler.on{{$name}}(message, this);
       {{- end}}
     } catch (err, st) {
-      //@todo provide handler
-      print(err);
-      print(st);
+      if (onError != null) {
+        onError!(err, st);
+      }
     }
   }
 }
