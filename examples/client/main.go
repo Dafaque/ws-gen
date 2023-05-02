@@ -43,8 +43,8 @@ func main() {
 		panic(err)
 	}
 	cl.SendChatEvent(*model.NewChatEvent(123, model.EventEntered, 2.000))
-	cl.SendChatEvent(*model.NewChatEvent(0, model.EventEntered, 2.000)) //test close on error
-
+	cl.Ping()
+	cl.Pong()
 	done := make(chan struct{})
 	time.AfterFunc(5*time.Second, func() {
 		cl.Shutdown()

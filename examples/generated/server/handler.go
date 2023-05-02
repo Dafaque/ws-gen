@@ -110,16 +110,23 @@ func (ch *connectionHandler) close(code int, text string) error {
 
 type HandlerMaker func() api.MessageHandler
 
-func NewHandler(hm HandlerMaker, coder iface.Coder, logger iface.Logger) http.HandlerFunc {
+func NewHandler(hm HandlerMaker, coder iface.Coder, logger iface.Logger, upgrader *websocket.Upgrader) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
-        var upgrader = websocket.Upgrader{}
-        conn, err := upgrader.Upgrade(w, r, nil)
+        var u websocket.Upgrader
+        if upgrader != nil {
+            u = *upgrader
+        }
+        conn, err := u.Upgrade(w, r, nil)
         if err != nil {
-            w.WriteHeader(http.StatusInternalServerError)
+            logger.Printf("NewHandler() error upgrade: %v", err);
             return
         }
         defer conn.Close()
         mh := hm()
+        
+        conn.SetPingHandler(mh.Ping)
+        conn.SetPongHandler(mh.Pong)
+
         connHandler := connectionHandler{
             wq: make(chan interface{}, 10),
             conn: conn,
