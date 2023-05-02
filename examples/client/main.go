@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -18,6 +19,9 @@ type handler struct {
 
 func (h handler) OnTextMessage(ctx context.Context, msg model.TextMessage, _ *api.MessageSender) error {
 	fmt.Printf("client got message: %s\n", *msg.Content)
+	if msg.ID == 0 {
+		return errors.New("TEST client closes on error")
+	}
 	return nil
 }
 func (h handler) OnDisconnected(code int, reason string) {
@@ -39,6 +43,7 @@ func main() {
 		panic(err)
 	}
 	cl.SendChatEvent(*model.NewChatEvent(123, model.EventEntered, 2.000))
+	cl.SendChatEvent(*model.NewChatEvent(0, model.EventEntered, 2.000)) //test close on error
 
 	done := make(chan struct{})
 	time.AfterFunc(5*time.Second, func() {

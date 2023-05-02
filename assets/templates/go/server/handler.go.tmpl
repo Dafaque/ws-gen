@@ -49,7 +49,9 @@ func (ch *connectionHandler) rloop() {
 		if ch.done {
 			break
 		}
-		mapper.Read(ch)
+		if err := mapper.Read(ch); err != nil {
+            ch.close(websocket.CloseProtocolError, err.Error())
+        }
 	}
 }
 

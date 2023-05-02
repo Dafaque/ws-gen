@@ -4,6 +4,8 @@ package mapper
 
 import (
     "context"
+	"errors"
+
     "{{get_param "module"}}/{{get_param "package"}}/model"
     "{{get_param "module"}}/{{get_param "package"}}/iface"
     "{{get_param "module"}}/{{get_param "package"}}/api"
@@ -20,20 +22,19 @@ type Handler interface {
 	CloseHandler(int, string) error
 }
 
-func Read(h Handler) {
+func Read(h Handler) error {
     _, data, errRead := h.GetConn().ReadMessage()
     if wsErr, casted := errRead.(*websocket.CloseError); casted {
-		h.CloseHandler(wsErr.Code, wsErr.Text)
-		return
+		return h.CloseHandler(wsErr.Code, wsErr.Text)
 	}
     if errRead != nil {
         h.GetLogger().Printf("Read(): %v", errRead)
-        return
+        return errRead
     }
     var msgMeta model.WSMessageMeta
-    if errUnmarsh := h.GetCoder().Unmarshal(data, &msgMeta); errUnmarsh != nil {
-        h.GetLogger().Printf("Read(): %v", errUnmarsh)
-        return
+    if errUnmarshal := h.GetCoder().Unmarshal(data, &msgMeta); errUnmarshal != nil {
+        h.GetLogger().Printf("Read(): %v", errUnmarshal)
+        return errUnmarshal
     }
     switch msgMeta.MsgIdx {
     {{- range $msg := .Messages}}
@@ -42,7 +43,7 @@ func Read(h Handler) {
         var message model.{{$name}}
         if err := h.GetCoder().Unmarshal(data, &message); err != nil {
             h.GetLogger().Printf("Read(): %v", err)
-            return
+            return err
         }
         errHandle := h.GetHandler().On{{$name}}(
             h.GetContext(),
@@ -51,11 +52,14 @@ func Read(h Handler) {
         )
         if errHandle != nil {
             h.GetLogger().Printf("Read()::On{{$name}}: %v", errHandle)
-            return
+            return errHandle
         }
     {{- end}}
     default:
-        h.GetLogger().Printf("Read()::default: recieved malformed message")
+        err := errors.New("recieved malformed message") 
+        h.GetLogger().Printf("Read()::default: %v", err)
+        return err
     }
+    return nil
     
 }

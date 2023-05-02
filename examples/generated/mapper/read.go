@@ -4,6 +4,8 @@ package mapper
 
 import (
     "context"
+	"errors"
+
     "github.com/Dafaque/ws-gen/examples/generated/model"
     "github.com/Dafaque/ws-gen/examples/generated/iface"
     "github.com/Dafaque/ws-gen/examples/generated/api"
@@ -20,27 +22,26 @@ type Handler interface {
 	CloseHandler(int, string) error
 }
 
-func Read(h Handler) {
+func Read(h Handler) error {
     _, data, errRead := h.GetConn().ReadMessage()
     if wsErr, casted := errRead.(*websocket.CloseError); casted {
-		h.CloseHandler(wsErr.Code, wsErr.Text)
-		return
+		return h.CloseHandler(wsErr.Code, wsErr.Text)
 	}
     if errRead != nil {
         h.GetLogger().Printf("Read(): %v", errRead)
-        return
+        return errRead
     }
     var msgMeta model.WSMessageMeta
-    if errUnmarsh := h.GetCoder().Unmarshal(data, &msgMeta); errUnmarsh != nil {
-        h.GetLogger().Printf("Read(): %v", errUnmarsh)
-        return
+    if errUnmarshal := h.GetCoder().Unmarshal(data, &msgMeta); errUnmarshal != nil {
+        h.GetLogger().Printf("Read(): %v", errUnmarshal)
+        return errUnmarshal
     }
     switch msgMeta.MsgIdx {
     case model.MsgIdxTextMessage:
         var message model.TextMessage
         if err := h.GetCoder().Unmarshal(data, &message); err != nil {
             h.GetLogger().Printf("Read(): %v", err)
-            return
+            return err
         }
         errHandle := h.GetHandler().OnTextMessage(
             h.GetContext(),
@@ -49,13 +50,13 @@ func Read(h Handler) {
         )
         if errHandle != nil {
             h.GetLogger().Printf("Read()::OnTextMessage: %v", errHandle)
-            return
+            return errHandle
         }
     case model.MsgIdxChatEvent:
         var message model.ChatEvent
         if err := h.GetCoder().Unmarshal(data, &message); err != nil {
             h.GetLogger().Printf("Read(): %v", err)
-            return
+            return err
         }
         errHandle := h.GetHandler().OnChatEvent(
             h.GetContext(),
@@ -64,10 +65,13 @@ func Read(h Handler) {
         )
         if errHandle != nil {
             h.GetLogger().Printf("Read()::OnChatEvent: %v", errHandle)
-            return
+            return errHandle
         }
     default:
-        h.GetLogger().Printf("Read()::default: recieved malformed message")
+        err := errors.New("recieved malformed message") 
+        h.GetLogger().Printf("Read()::default: %v", err)
+        return err
     }
+    return nil
     
 }
