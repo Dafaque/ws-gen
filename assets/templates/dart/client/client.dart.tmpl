@@ -23,6 +23,7 @@ class Client extends MessageSender {
         attachListener();
     }
     void attachListener() {
+      chan.ready.then((_) => _handler.onConnected(this));
       chan.stream.listen(onMessage, onDone: onDisconnected);
     }
 
