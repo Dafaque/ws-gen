@@ -25,9 +25,8 @@ class Client extends MessageSender {
         attachListener();
     }
     void attachListener() {
-      chan.ready.then((_) {
-        chan.stream.listen(onMessage, onDone: onDisconnected, onError: onError);
-      }, onError: onError).onError((e, st) {
+      chan.stream.listen(onMessage, onDone: onDisconnected, onError: onError);
+      chan.ready.then((_) {}, onError: onError).onError((e, st) {
         if (onError != null && e != null) onError!(e, st);
       });
     }
