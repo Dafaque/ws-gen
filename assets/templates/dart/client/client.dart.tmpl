@@ -6,6 +6,8 @@ import 'package:{{get_param "module"}}/{{get_param "package"}}/serialization/cod
 
 class Client extends MessageSender {
     final MessageHandler _handler;
+    Function(Object err, StackTrace st)? onError;
+
     Client(
       this._handler,
       String addr,
@@ -23,14 +25,16 @@ class Client extends MessageSender {
         attachListener();
     }
     void attachListener() {
-      chan.ready.then((_) => _handler.onConnected(this));
-      chan.stream.listen(onMessage, onDone: onDisconnected);
+      chan.ready.then((_) {
+        chan.stream.listen(onMessage, onDone: onDisconnected, onError: onError);
+      }, onError: onError).onError((e, st) {
+        if (onError != null && e != null) onError!(e, st);
+      });
     }
 
     void onDisconnected() =>
         _handler.onDisconnected(chan.closeCode, chan.closeReason);
   
-  Function(Object err, StackTrace st)? onError;
   void onMessage(dynamic msg) {
     try {
       Encodable message = coder.decode(msg);
