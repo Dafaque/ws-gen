@@ -48,3 +48,11 @@ messages:
         type: $event # enum reference
       - name: testSnakeCaseConvertor # camelCase, please
         type: float
+      - name: testBool
+        type: bool
+      - name: testBool2
+        type: bool?
+      - name: testBool3
+        type: ...bool
+      - name: testBool4
+        type: ...bool?

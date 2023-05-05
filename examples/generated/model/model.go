@@ -44,17 +44,29 @@ type ChatEvent struct {
     ID int64 `json:"id"`
     Event Event `json:"event"`
     TestSnakeCaseConvertor float64 `json:"test_snake_case_convertor"`
+    TestBool bool `json:"test_bool"`
+    TestBool2 *bool `json:"test_bool2"`
+    TestBool3 []bool `json:"test_bool3"`
+    TestBool4 []*bool `json:"test_bool4"`
 }
 func NewChatEvent(
     id int64,
     event Event,
     testSnakeCaseConvertor float64,
+    testBool bool,
+    testBool2 *bool,
+    testBool3 []bool,
+    testBool4 []*bool,
 ) *ChatEvent {
     var model ChatEvent
     model.WSMessageMeta.MsgIdx = MsgIdxChatEvent
     model.ID = id
     model.Event = event
     model.TestSnakeCaseConvertor = testSnakeCaseConvertor
+    model.TestBool = testBool
+    model.TestBool2 = testBool2
+    model.TestBool3 = testBool3
+    model.TestBool4 = testBool4
     return &model
 }
 type InitParams struct {

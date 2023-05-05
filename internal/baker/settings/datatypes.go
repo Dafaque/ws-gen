@@ -19,4 +19,5 @@ const (
 	DataTypeFloat32 dataType = "float32"
 	DataTypeFloat64 dataType = "float64"
 	DataTypeString  dataType = "string"
+	DataTypeBoolean dataType = "bool"
 )

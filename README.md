@@ -49,6 +49,7 @@ WebSocket multi-language code generation tool
 * float32
 * float64
 * string
+* bool
 ```
 Each type have two modifiers combinable:
 1. prefix `...`, which means array (list)

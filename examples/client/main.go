@@ -42,7 +42,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	cl.SendChatEvent(*model.NewChatEvent(123, model.EventEntered, 2.000))
+	cl.SendChatEvent(*model.NewChatEvent(123, model.EventEntered, 2.000, false, nil, nil, nil))
 	cl.Ping()
 	cl.Pong()
 	done := make(chan struct{})

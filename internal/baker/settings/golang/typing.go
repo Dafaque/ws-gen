@@ -16,7 +16,8 @@ func convertType(t string) string {
 		settings.DataTypeUnsignedInt,
 		settings.DataTypeFloat32,
 		settings.DataTypeFloat64,
-		settings.DataTypeString:
+		settings.DataTypeString,
+		settings.DataTypeBoolean:
 		return t
 	case settings.DataTypeFloat:
 		return settings.DataTypeFloat64

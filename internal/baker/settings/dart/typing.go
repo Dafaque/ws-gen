@@ -25,6 +25,8 @@ func convertType(t string) string {
 		return "double"
 	case settings.DataTypeString:
 		return "String"
+	case settings.DataTypeBoolean:
+		return t
 	default:
 		panic("unknown type " + t)
 	}
@@ -41,7 +43,6 @@ func wrapType(dt string, nullable, array bool) string {
 	return str
 }
 
-// @todo i think this smells
 func wrapListTypeCast(dt string) string {
 	str := strings.Replace(dt, "...", "", 1)
 	str = strings.Replace(str, "?", "", 1)
