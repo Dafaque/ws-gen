@@ -26,7 +26,7 @@ func bake(lang, fp, file string, conf *config.Config) error {
 		lc.GetTypeConverter(),
 		lc.GetTypeWrapper(),
 	)
-	funcs["enc"] = lc.GetEncodingPackage()
+	funcs["enc"] = common.GetEncoder(lang)
 	funcs["islist"] = common.IsList
 	funcs["isenum"] = common.IsEnum
 	for name, fn := range lc.GetSpecialFuncs() {
