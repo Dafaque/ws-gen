@@ -55,6 +55,12 @@ Each type have two modifiers combinable:
 1. prefix `...`, which means array (list)
 2. suffix `?`, which means optional (nullable) type
 
+# Encodings
+```
+* json
+* msgpack
+```
+
 # Spec reference
 ```
 # message packing format
