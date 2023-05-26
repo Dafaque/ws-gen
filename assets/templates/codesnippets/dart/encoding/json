@@ -1,2 +1,2 @@
 import 'dart:convert' show json;
-var encoder = json;
+var _Coder = json;
