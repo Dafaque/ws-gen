@@ -26,6 +26,9 @@ func (c Config) GetCompleteMessage() string {
 	str += fmt.Sprintln("Run go mod tidy to install dependencies")
 	return str
 }
+func (c Config) GetEncodingPackage() settings.StringOverrider {
+	return getEncodingPackage
+}
 func (c Config) GetSpecialFuncs() template.FuncMap {
 	return nil
 }

@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var availableEncodingFormats []string = []string{"json"}
+var availableEncodingFormats []string = []string{"json", "msgpack"}
 
 type (
 	Config struct {

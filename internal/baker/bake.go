@@ -16,19 +16,20 @@ func bake(lang, fp, file string, conf *config.Config) error {
 	tmpl := template.New(fp)
 
 	var funcs template.FuncMap = make(template.FuncMap)
-
-	funcs["fconv"] = conf.Internal.LanguageConfig.GetPublicFieldNameConverter()
-	funcs["sconv"] = conf.Internal.LanguageConfig.GetPublicStructNameConverter()
+	lc := conf.Internal.LanguageConfig
+	funcs["fconv"] = lc.GetPublicFieldNameConverter()
+	funcs["sconv"] = lc.GetPublicStructNameConverter()
 	funcs["snake"] = common.ToSnakeCase
 	funcs["get_param"] = common.MakeGetParamFunc(conf.Custom)
 	funcs["tconv"] = common.MakeParseTypeFunc(
-		conf.Internal.LanguageConfig.GetPublicStructNameConverter(),
-		conf.Internal.LanguageConfig.GetTypeConverter(),
-		conf.Internal.LanguageConfig.GetTypeWrapper(),
+		lc.GetPublicStructNameConverter(),
+		lc.GetTypeConverter(),
+		lc.GetTypeWrapper(),
 	)
+	funcs["enc"] = lc.GetEncodingPackage()
 	funcs["islist"] = common.IsList
 	funcs["isenum"] = common.IsEnum
-	for name, fn := range conf.Internal.LanguageConfig.GetSpecialFuncs() {
+	for name, fn := range lc.GetSpecialFuncs() {
 		funcs[name] = fn
 	}
 	tmpl.Funcs(funcs)
