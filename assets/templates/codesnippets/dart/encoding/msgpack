@@ -1,7 +1,10 @@
 import 'package:msgpack_dart/msgpack_dart.dart';
 
-class encoder {
-  static Uint8List encode(Encodable e) => serialize(e.topMap());
-  static Map<String, dynamic> decode(Uint8List d) => (deserialize(data) as Map<dynamic, dynamic>)
-          .map((key, value) => MapEntry(key as String, value));;
+class _Coder {
+  static dynamic encode(dynamic e) => serialize(e);
+  static Map<String, dynamic> decode(
+    dynamic d,
+  ) =>
+      (deserialize(d) as Map<dynamic, dynamic>)
+          .map((key, value) => MapEntry(key as String, value));
 }

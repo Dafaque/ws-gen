@@ -21,7 +21,7 @@ class {{$name}} implements Encodable {
     Map<String, dynamic> toEncodable() => <String, dynamic>{
         "\$msg_idx": MessageIndex.{{$msg.Name}}.index,
         {{- range $field := $msg.Fields}}
-        "{{snake $field.Name}}": {{fconv $field.Name}},
+        "{{snake $field.Name}}": _toEncodable({{fconv $field.Name}}),
         {{- end}}
     };
 }
@@ -77,3 +77,10 @@ enum {{sconv $enum.Name}} with EnumEncodable {
     {{- end }}
 }
 {{- end }}
+
+dynamic _toEncodable(dynamic obj) {
+    if (obj is Encodable) {
+        return obj.toEncodable();
+    }
+    return obj;
+}
