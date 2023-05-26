@@ -28,6 +28,9 @@ func (c Config) GetCompleteMessage() string {
 	str += fmt.Sprintln("Now run `dart pub add web_socket_channel`")
 	return str
 }
+func (c Config) GetEncodingPackage() settings.StringOverrider {
+	return getEncodingPackage
+}
 func (c Config) GetSpecialFuncs() template.FuncMap {
 	return template.FuncMap{
 		"listtypecast": wrapListTypeCast,

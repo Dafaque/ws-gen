@@ -17,14 +17,15 @@ const (
 )
 
 type WSMessageMeta struct {
-    MsgIdx msgIdx `json:"$msg_idx"`
+    MsgIdx msgIdx `{{.Encoding}}:"$msg_idx"`
 }
+{{- $encoding := .Encoding }}
 {{range $msg := .Messages}}
 {{$exportedModelName := sconv $msg.Name}}
 type {{$exportedModelName}} struct {
     WSMessageMeta
     {{- range $field := $msg.Fields}}
-    {{sconv $field.Name}} {{tconv $field.Type}} `json:"{{snake $field.Name}}"`
+    {{sconv $field.Name}} {{tconv $field.Type}} `{{$encoding}}:"{{snake $field.Name}}"`
     {{- end}}
 }
 func New{{$exportedModelName}}(

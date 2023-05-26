@@ -10,8 +10,9 @@ type LanguageSettings interface {
 	GetTypeWrapper() TypeWrapper
 	GetPublicFieldNameConverter() StringOverrider
 	GetPublicStructNameConverter() StringOverrider
-	GetCompleteMessage() string
+	GetEncodingPackage() StringOverrider
 	GetSpecialFuncs() template.FuncMap
+	GetCompleteMessage() string
 }
 
 var configs map[string]LanguageSettings = make(map[string]LanguageSettings)
