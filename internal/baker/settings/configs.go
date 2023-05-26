@@ -10,7 +10,6 @@ type LanguageSettings interface {
 	GetTypeWrapper() TypeWrapper
 	GetPublicFieldNameConverter() StringOverrider
 	GetPublicStructNameConverter() StringOverrider
-	GetEncodingPackage() StringOverrider
 	GetSpecialFuncs() template.FuncMap
 	GetCompleteMessage() string
 }

@@ -1,0 +1,10 @@
+import "errors"
+//FIXME Encoding %s not supported
+type unimplementedEncoder struct{}
+func (ue unimplementedEncoder) Unmarshal([]byte, interface{}) error {
+	return errors.New("Unmarshal() is not emplemented")
+}
+func (ue unimplementedEncoder) Marshal(interface{}) ([]byte, error) {
+	return nil, errors.New("Marshal() is not emplemented")
+}
+var encoder unimplementedEncoder

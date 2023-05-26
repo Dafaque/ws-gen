@@ -1,0 +1,5 @@
+//FIXME Encoding %s not supported
+class encoder {
+	static dynamic encode(dynamic) => throw "decoded is not implemented";
+	static dynamic decode(dynamic) => throw "decoded is not implemented";
+}
