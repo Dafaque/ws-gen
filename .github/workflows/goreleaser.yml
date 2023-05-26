@@ -3,7 +3,7 @@ name: goreleaser
 on:
   push:
     tags:
-      - '*'
+      - 'tmp*'
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
