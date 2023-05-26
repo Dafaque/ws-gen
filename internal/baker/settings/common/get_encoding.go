@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Dafaque/ws-gen/assets"
-	"github.com/Dafaque/ws-gen/internal/baker/settings"
+	"github.com/dafaque/ws-gen/assets"
+	"github.com/dafaque/ws-gen/internal/baker/settings"
 )
 
 func GetEncoder(lang string) settings.StringOverrider {

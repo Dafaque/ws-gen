@@ -3,7 +3,7 @@ package dart
 import (
 	"strings"
 
-	"github.com/Dafaque/ws-gen/internal/baker/settings"
+	"github.com/dafaque/ws-gen/internal/baker/settings"
 )
 
 func convertType(t string) string {

@@ -16,7 +16,7 @@ WebSocket multi-language code generation tool
 
 # Install
 ### With Go
-`go install github.com/Dafaque/ws-gen`
+`go install github.com/dafaque/ws-gen`
 ### With Homebrew
 `brew tap Dafaque/ws-gen && brew install ws-gen`
 

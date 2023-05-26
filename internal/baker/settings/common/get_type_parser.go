@@ -3,7 +3,7 @@ package common
 import (
 	"strings"
 
-	"github.com/Dafaque/ws-gen/internal/baker/settings"
+	"github.com/dafaque/ws-gen/internal/baker/settings"
 )
 
 func MakeParseTypeFunc(modelOverride settings.StringOverrider, override settings.StringOverrider, wrap settings.TypeWrapper) settings.StringOverrider {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"text/template"
 
-	"github.com/Dafaque/ws-gen/internal/baker/settings"
+	"github.com/dafaque/ws-gen/internal/baker/settings"
 )
 
 type Config struct{}

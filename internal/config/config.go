@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/Dafaque/ws-gen/internal/baker/settings"
+	"github.com/dafaque/ws-gen/internal/baker/settings"
 
 	"gopkg.in/yaml.v3"
 )

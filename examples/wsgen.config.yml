@@ -1,2 +1,2 @@
-module: github.com/Dafaque/ws-gen/examples
+module: github.com/dafaque/ws-gen/examples
 package: generated

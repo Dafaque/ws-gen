@@ -3,8 +3,8 @@ package api
 import (
     "time"
     
-    "github.com/Dafaque/ws-gen/examples/generated/iface"
-    "github.com/Dafaque/ws-gen/examples/generated/model"
+    "github.com/dafaque/ws-gen/examples/generated/iface"
+    "github.com/dafaque/ws-gen/examples/generated/model"
     
     "github.com/gorilla/websocket" 
 )

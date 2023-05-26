@@ -1,6 +1,6 @@
 package golang
 
-import "github.com/Dafaque/ws-gen/internal/baker/settings"
+import "github.com/dafaque/ws-gen/internal/baker/settings"
 
 func convertType(t string) string {
 	switch t {

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"text/template"
 
-	"github.com/Dafaque/ws-gen/internal/baker/settings"
-	"github.com/Dafaque/ws-gen/internal/baker/settings/common"
+	"github.com/dafaque/ws-gen/internal/baker/settings"
+	"github.com/dafaque/ws-gen/internal/baker/settings/common"
 )
 
 type Config struct{}

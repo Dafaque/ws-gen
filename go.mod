@@ -1,4 +1,4 @@
-module github.com/Dafaque/ws-gen
+module github.com/dafaque/ws-gen
 
 go 1.20
 

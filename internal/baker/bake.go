@@ -8,8 +8,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/Dafaque/ws-gen/internal/baker/settings/common"
-	"github.com/Dafaque/ws-gen/internal/config"
+	"github.com/dafaque/ws-gen/internal/baker/settings/common"
+	"github.com/dafaque/ws-gen/internal/config"
 )
 
 func bake(lang, fp, file string, conf *config.Config) error {

@@ -7,10 +7,10 @@ import (
 	"log"
 	"time"
 
-	"github.com/Dafaque/ws-gen/examples/generated/api"
-	"github.com/Dafaque/ws-gen/examples/generated/client"
-	"github.com/Dafaque/ws-gen/examples/generated/iface"
-	"github.com/Dafaque/ws-gen/examples/generated/model"
+	"github.com/dafaque/ws-gen/examples/generated/api"
+	"github.com/dafaque/ws-gen/examples/generated/client"
+	"github.com/dafaque/ws-gen/examples/generated/iface"
+	"github.com/dafaque/ws-gen/examples/generated/model"
 )
 
 type handler struct {
