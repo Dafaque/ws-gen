@@ -18,17 +18,16 @@ func NewMessageSender(conn *websocket.Conn, coder iface.Coder) *MessageSender {
     return &MessageSender{conn: conn, coder: coder}
 }
 
+func (c *MessageSender) SendBinary(data []byte) error {
+    return c.conn.WriteMessage(websocket.BinaryMessage, data)
+}
+
 func (c *MessageSender) send(msg interface{}) error {
     data, err := c.coder.Marshal(msg)
     if err != nil {
         return err
     }
-
-    errWrite := c.conn.WriteMessage(websocket.BinaryMessage, data)
-    if errWrite != nil {
-        return errWrite
-    }
-    return nil
+    return c.SendBinary(data)
 }
 
 func (c *MessageSender) Ping() error {
