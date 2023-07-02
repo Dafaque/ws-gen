@@ -1,9 +1,10 @@
 import 'package:msgpack_dart/msgpack_dart.dart';
+import 'dart:typed_data';
 
 class _Coder {
   static dynamic encode(dynamic e) => serialize(e);
   static Map<String, dynamic> decode(
-    dynamic d,
+    Uint8List d,
   ) =>
       (deserialize(d) as Map<dynamic, dynamic>)
           .map((key, value) => MapEntry(key as String, value));

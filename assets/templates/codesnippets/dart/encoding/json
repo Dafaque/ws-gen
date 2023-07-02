@@ -1,2 +1,9 @@
 import 'dart:convert' show json;
-var _Coder = json;
+import 'dart:typed_data';
+
+class _Coder {
+  static dynamic encode(dynamic e) => json.encode(e);
+  static Map<String, dynamic> decode(
+    Uint8List d,
+  ) => json.decode(String.fromCharCodes(d));
+}

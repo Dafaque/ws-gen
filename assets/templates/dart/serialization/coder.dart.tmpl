@@ -19,7 +19,7 @@ class DefaultCoder implements Coder {
 
   @override
   Encodable decode(dynamic msg) {
-    Map<String, dynamic> data = _Coder.decode(String.fromCharCodes(msg));
+    Map<String, dynamic> data = _Coder.decode(msg as Uint8List);
     int idx = data["\$msg_idx"];
     if (idx > MessageIndex.values.length) {
       throw "Undecodable object $idx";
